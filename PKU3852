@@ -1,0 +1,46 @@
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <set>
+
+using namespace std;
+
+bool check_cond(vector<string> v){
+    set<string> hash;
+    for (int i = 0; i < v.size(); i++){
+        if (v[i].empty())
+            return true;
+        if (hash.count(v[i]))
+            return true;
+        hash.insert(v[i]);
+    }
+    return false;
+}
+
+int main(){
+    int n;
+    while (cin >> n){
+        if (n == 0)
+            break;
+        int count = 0;
+        vector<string> ss;
+        for (int i = 0; i < n; i++){
+            string s;
+            cin >> s;
+            ss.push_back(s);
+        }
+        if (!check_cond(ss))
+            while (true){
+                for (int i = 0; i < n; i++){
+                    ss[i].erase(ss[i].begin());
+                }
+                if (!check_cond(ss))
+                    count++;
+                else
+                   break; 
+            }
+        cout << count << endl;
+    }
+    return 0;
+}
