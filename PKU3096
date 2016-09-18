@@ -1,0 +1,36 @@
+#include <iostream>
+#include <string>
+#include <stdio.h>
+#include <set>
+
+using namespace std;
+
+bool isDunique(int D, string s){
+    set<string> hash;
+    for (int i = 0; i < s.size() - D; i++){
+        string pair = s.substr(i, 1) + s.substr(i +D, 1);
+        if (hash.count(pair))
+            //cout << pair << endl;
+            return false;
+        else
+            hash.insert(pair);
+    }
+    return true;
+}
+
+int main(){
+    string s;
+    while (cin >> s){
+        if (s == "*")
+            break;
+        bool ans = true;
+        for (int i = 1; i < s.size(); i++){
+            ans = ans & isDunique(i, s);
+        } 
+        if (ans)
+            cout << s << " is surprising." << endl;
+        else
+            cout << s << " is NOT surprising." << endl;
+    }
+    return 0;
+}
