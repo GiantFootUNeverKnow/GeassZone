@@ -1,0 +1,34 @@
+//This codes passed the original contest testdata, and its logics and output are both goog.
+//For some reason, POJ takes it as WA/Runtime Error. Struggele for 1~2 hours. Fuck POJ 
+
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <math.h>
+using namespace std;
+
+int main(){
+    int n, index;
+    index = 1;
+    while (cin >> n){
+        vector<int> bricks;
+        int total = 0;
+        int cat;
+        for (int i = 0; i < n; i++){
+            cin >> cat;
+            bricks.push_back(cat);
+            total += cat;
+        }   
+        int avg = total / n;
+        int ans = 0;
+        for (int i = 0; i < n; i++)
+            if (bricks[i] > avg)
+                ans += bricks[i] - avg;
+        cout << "Set #" << index << endl;
+        cout << "The minimum number of moves is " << ans << "." << endl;
+        cout << endl;
+        index++;
+    }
+    return 0;
+}
+
