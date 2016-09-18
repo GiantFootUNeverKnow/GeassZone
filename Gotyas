@@ -1,0 +1,70 @@
+## From UVA 10400, I know that sometimes DFS can outrun BFS greatly because you don't need travel through all possibilities in some
+## situations. When DFS reaches one of the solutions, it can terminate immediately while BFS has to spend long long time searching 
+## no single solution.
+## Also, from UVA 10400, I used repetitive trimming to speed up DFS. You record some states you have searched and skip that state whenever 
+## you meet it again.
+
+##From UVA 714, which I didn't AC, I learned a way to figure out the Least Largest Element problem --- Binary Search!
+##,though it is not a key to all similar problems...
+
+##UVA 10055, the simplest problem, taught me some things, cost me three WA...
+##Always read the problem!
+##abs() is different in <cstdlib> and <cmath>. If you do with int, go with cstdlib, otherwise, cmath is your favorite
+
+##UVA 10718 is an awesome math problem. I already spent 2 hours coding the complicated bit operations, which I think there
+##should be some packages easier to use. But, important points have to be made: bit operation maybe have higher priority than
+##"==" or "!=". Be careful when doing comparison with bit operation. They cause unlimited problems
+
+##UVA 11988 is the first exercise of data structure and it shows me a convenient data structure -- list. It can support a 
+##front and back, push and pop, and anywhere modification/request. It just looks like a physical list.
+
+##UVA 11136. Data structure is really interesting. I discovered a new container in C++ ----multiset. Though its name is weird
+##its property i awesome. I basically treat it as binary search tree and it really is (at least in reference it is said to be 
+##implemented by BST). It is a useful structure. I don't know why they don't directly call it BST, instead name it multiset
+##Some places noteworthy and take me bunch of time to figure out: in C++ container, end() does not point to any thing...
+##end() is just a tool in combination of begin(). If you want to access the last element, use rbegin()!!
+##Careful about using erase() of multiset. Check first! Don't apply erase() on a position like erase(13). 
+##Don't erase("APPLE") if there is only one "APPLE" you really want to delete.
+##Use erase with iterators!
+
+##PKU1753. The problem is pretty simple, just using BFS to search possible movements of a board game. However, it requires much 
+##consideration for the performance. I failed the TLE for seven or eight times even if I have used the bit operation to 
+##speed up the codes, which should be the only tricky part of this problem.
+##I only managed to discover the deficiency of my codes after line by line examination of my codes through 
+##comparing with someone's codes online. Until my last submission, my codes still run ten times slower than 
+##his,causing TLE again, even though my data structure and priming are both better than his.
+##It is too annoying to see TLE againagain and again. Finally, I located some place that might cause bad performance and it only appears in my codes:
+##I use a vector instead of array for passing data of at most five integers. It completely dragged my program down
+##Removing this "careless design", my codes finally outperformes the BFS codes shown online.
+##So frustrating when you know all the tricks and DS and algos but only remiss the most trivial things.
+##So surprised that C++ vector suffers so much when it deals with little amount of data. Over ten times slower than a simple array
+
+##PKU2632. Modulation in C++ is not well defined, so there is possibility you will obtain a negative modulation. The easiest way
+##to write module is like : (n + (i % n)) % n.
+##PKU1564. Strict weak ordering requires that comparing two identical objects a, b in whichever order should return false. Eg
+##a == b. f(a,b) == f(b,a) == false
+##More importantly, POJ seems to use C++99. SO SAD
+
+##UVA11631 Doing prim on C++ is so pain... If you wanna declare a node, there is no problem. A graph, no problem either. However
+##if you want to do anything with priorioty queue for some pointers, you need to be careful! I never succeeded in doing it for one time!
+##The priority queue for some reason always yelled "Invalid Heap" to me, even though I wrote the almost same code as what is 
+##written on the official example for customized comparator. I tried this for at least 5 hours, including for this problem and another
+##Finally, I decided to go off this tough road. What is hard to do here is to create a priority queue with pointer to an object
+##You can actually choose to use Kruskal instead of Prim, which could use pq<Edge> in which Edge is just an object rather than a ptr
+##If you insist on using Prim/Dijsktra, you have to use pair somehow. It would be much more fluent when you use just priority q
+##for just primitives.
+
+##UVA10229 A good practice for math problem. This problem introduces the concept of modular fibonacci to me. I figured out 
+##Pisano period and managed to generate formula of Pisano period for this problem. To calculate modular fibonacci is really expensive, unless
+##non-trivial improvement has been made from the definition formula of Fibonacci. The first step is to approach the problem by matrix 
+##multiplication. We have learned in class that Fibonacci number can be calculated by dynamical system. Furthermore, one has to 
+##know how to take power of matrix efficiently, which is analogous to taking power of integer. Finally, I applied the Pisano period
+##to speed up the computation. 
+
+##PKU3186 Don't declare big arrays in main, either use vector or declare outside main
+
+##UVa11378 Don't let UVA fool you. It is too bitch! It uses a default value for exception case without telling what the value is in the problem.
+##Seriously: I relearned the fact that vector.size() is a unsigned integer, don't do (vector.size()-1 > i) comparison. 
+##Another good takeaway is that max/min function is in algorithm
+
+##UVa802 vector can be created by an array. Syntax: int _b[6]; VD b(_b, _b + 6);	//construct b from b
