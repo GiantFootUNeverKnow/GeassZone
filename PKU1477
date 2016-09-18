@@ -1,6 +1,3 @@
-//This codes passed the original contest testdata, and its logics and output are both goog.
-//For some reason, POJ takes it as WA/Runtime Error. Struggele for 1~2 hours. Fuck POJ 
-
 #include <iostream>
 #include <stdio.h>
 #include <vector>
@@ -11,6 +8,8 @@ int main(){
     int n, index;
     index = 1;
     while (cin >> n){
+        if (n == 0)
+            break;
         vector<int> bricks;
         int total = 0;
         int cat;
