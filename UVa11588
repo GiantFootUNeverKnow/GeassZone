@@ -1,0 +1,63 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stdio.h>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <cmath>
+#include <cstring>
+#include <climits>
+#include <cstdlib>
+#include <string>
+#include <utility>
+
+using namespace std;
+
+typedef vector<int> VI;
+typedef vector<vector<int> > VVI;
+typedef pair<int, int> PII;
+typedef vector<pair<int, int> > VPI;
+typedef vector<double> VD;
+typedef vector<vector<double> > VVD;
+
+const int EPIS = 1e-7;
+const int max = 2000000000;
+
+int main(){
+    int X, R, C, M, N;
+    cin >> X;
+    int tcase = 1;
+    while (X--){
+        cin >> R >> C >> M >> N;
+        int freq[26];
+        string tmp;
+        memset(freq, 0, sizeof freq);
+        char c;
+        for (int i = 0; i < R ; i++ ){
+            for ( int j = 0; j < C; j++ ){
+                cin >> c; 
+                freq[c - 'A']++;
+            }
+            getline(cin, tmp);
+        }
+        int maxFreq = -1;
+        for (int i = 0; i < 26; i++){
+            if (freq[i] > maxFreq)
+                maxFreq = freq[i];
+        }
+        int ans = 0;
+        for (int i = 0; i < 26; i++){
+            if (freq[i] == maxFreq)
+                ans += freq[i] * M;
+            else
+                ans += freq[i] * N;
+        }
+        cout << "Case " << tcase++ << ": " << ans << endl;
+    }
+    return 0;
+}
