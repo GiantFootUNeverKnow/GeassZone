@@ -1,0 +1,64 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stdio.h>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <string>
+#include <utility>
+
+using namespace std;
+
+typedef vector<int> VI;
+typedef vector<vector<int> > VVI;
+typedef pair<int, int> PII;
+typedef vector<pair<int, int> > VPI;
+typedef vector<double> VD;
+typedef vector<vector<double> > VVD;
+
+const int EPIS = 1e-7;
+const int max = 2000000000;
+
+int main(){
+    set<PII> cache;
+    string tmp;
+    int Q, P, K;
+    VPI data;
+    while (cin >> tmp){
+        if (tmp == "#")
+            break;
+        cin >> Q >> P;
+        data.push_back(make_pair(P, Q));
+    }
+    sort(data.begin(), data.end());
+    cin >> K;
+    for (auto pair : data){
+        for (int j = 1; j <= K; j++){
+            int time  = j * pair.first;
+            PII job = make_pair(time, pair.second);
+            if (cache.size() < K){
+                cache.insert(job);
+            }
+            else{
+                if (*(cache.rbegin()) > job){
+                    cache.erase(*(cache.rbegin()));
+                    cache.insert(job);
+                }
+                else
+                    break;
+            }
+        }
+    }
+    for (auto it = cache.begin(); it != cache.end(); it++){
+        cout << it->second << endl;
+    }
+    return 0;
+}
