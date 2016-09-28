@@ -70,4 +70,6 @@
 ##UVa802 vector can be created by an array. Syntax: int _b[6]; VD b(_b, _b + 6);	//construct b from b
 
 ##PKU1477 A stupid Hello World Problem that takes me 3 WAs and 2 hours. When you do while (cin >> n){} it doesn't stop at n == 0. You 
-##have to explicitly say if (n == 0) break; 
+##have to explicitly say if (n == 0) break;
+#
+#UVa417 Way to convert one character to a string. char c = 'a';  string s = string (1, c);
