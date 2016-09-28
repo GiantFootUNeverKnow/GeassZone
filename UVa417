@@ -1,0 +1,58 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stdio.h>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <string>
+#include <utility>
+
+using namespace std;
+
+typedef vector<int> VI;
+typedef vector<vector<int> > VVI;
+typedef pair<int, int> PII;
+typedef vector<pair<int, int> > VPI;
+typedef vector<double> VD;
+typedef vector<vector<double> > VVD;
+
+const int EPIS = 1e-7;
+const int max = 2000000000;
+
+int main(){
+    queue<string> q;
+    map<string, int> m;
+    for (int i = 0; i < 26; i++){
+        char c = 'a' + i;
+        q.push(string(1, c));
+    }
+    int index = 1;
+    while (!q.empty()){
+        string cur = q.front();
+        m[cur] = index;
+        index++;
+        if (cur.size() <= 5){
+            char c = *(cur.rbegin());
+            for (char j = c + 1; j <= 'z'; j++){
+                q.push(cur + string(1, j));
+            }
+        }   
+        q.pop();
+    }
+    string query;
+    while (cin >> query){
+        if (m.find(query) != m.end())
+            cout << m[query] << endl;
+        else
+            cout << 0 << endl;
+    }
+    return 0;
+}
