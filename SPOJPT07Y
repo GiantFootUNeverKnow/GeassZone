@@ -1,0 +1,82 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stdio.h>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <string>
+#include <utility>
+
+using namespace std;
+
+typedef vector<int> VI;
+typedef vector<vector<int> > VVI;
+typedef pair<int, int> PII;
+typedef vector<pair<int, int> > VPI;
+typedef vector<double> VD;
+typedef vector<vector<double> > VVD;
+
+const int EPIS = 1e-7;
+const int max = 2000000000;
+
+int n,m;
+VVI e;
+bool v[10000];
+int p[10000];
+
+void init(){
+    for (int i = 0; i < n; i++){
+        VI c;
+        e.push_back(c);
+        v[i] = false;
+        p[i] = -1;
+    }
+}
+
+bool dfs(int cur){
+    cerr << cur << endl;
+    v[cur] = true;
+    bool ans = true;
+    for (int j = 0; j < e[cur].size(); j++){
+        int next = e[cur][j];
+        if (next == p[cur])
+            continue;
+        if (v[next])
+            return false;
+        p[next] = cur;
+        ans = ans && dfs(next);
+    }
+    return ans;
+}
+
+int main(){
+    cin >> n >> m;
+    init();
+    for (int i = 0; i < m; i++){
+        int a, b;
+        cin >> a >> b;
+        a--; b--;
+        e[a].push_back(b);
+        e[b].push_back(a);
+    } 
+    bool ans = dfs(0);
+    for (int i = 0; i < n; i++){
+        if (!v[i]){
+            ans = false;
+            break;
+        }
+    }
+    if (ans)
+        cout << "YES" << endl;
+    else
+        cout << "NO" << endl;
+    return 0;
+}
