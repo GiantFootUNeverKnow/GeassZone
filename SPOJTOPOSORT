@@ -1,0 +1,91 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stdio.h>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <string>
+#include <list>
+#include <utility>
+#include <functional>
+
+using namespace std;
+
+typedef vector<int> VI;
+typedef vector<vector<int> > VVI;
+typedef pair<int, int> PII;
+typedef vector<pair<int, int> > VPI;
+typedef list<pair<int, int> > LPI;
+typedef vector<double> VD;
+typedef vector<vector<double> > VVD;
+
+const int EPIS = 1e-7;
+const int max = 2000000000;
+
+struct edge{int e, nxt;};
+const int MAXE = 1000000;
+const int MAXN = 10000;
+
+VVI e;
+VI er;
+VI result;
+int n, m;
+
+void init(){
+    for (int i = 0; i < n; i++){
+        VI row;
+        e.push_back(row);
+        er.push_back(0);
+    }
+}
+
+int main(){
+    scanf("%d %d", &n, &m);
+    init();
+    int a, b;
+    for (int i = 0; i < m; i++){
+        scanf("%d %d", &a, &b);
+        a--; b--;
+        e[a].push_back(b);
+        er[b]++;
+    }
+    bool isDAG = true;
+    priority_queue<int, VI, greater<int>> S;    
+    for (int i =0; i < n; i++){
+        if (er[i] == 0)
+            S.push(i);
+    }
+    while (!S.empty()){
+        int cur= S.top();
+        S.pop();
+        result.push_back(cur);
+        for (int j = e[cur].size() - 1; j >= 0; j--){
+            int next = e[cur][j];
+            er[next]--;
+            if (er[next] == 0)
+                S.push(next);
+        }
+    }
+    for (int i = 0; i < n; i++){
+        if (er[i] != 0)
+            isDAG = false;
+    }
+    if (isDAG){
+        for (int i = 0; i < result.size() ;i++){
+            int res = result[i] + 1;
+            printf("%d ", res);
+        }
+        cout << endl;
+    }else
+        cout << "Sandro fails." << endl;
+    
+    return 0;
+}
