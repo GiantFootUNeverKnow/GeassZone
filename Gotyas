@@ -73,3 +73,8 @@
 ##have to explicitly say if (n == 0) break;
 #
 #UVa417 Way to convert one character to a string. char c = 'a';  string s = string (1, c);
+#
+#UVa133 -1 % 5 = 5... In the formula described above "(n + (i % n)) % n", please make sure i is positive. 
+#Also, x % 0 is undefined and running such operation would cause the program to exit with no exception
+#Handy way to accept input and validate that it is non-zero: 
+#while (cin >> x && x != 0){}

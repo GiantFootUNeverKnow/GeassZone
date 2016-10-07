@@ -1,0 +1,82 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stdio.h>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <string>
+#include <utility>
+#include <list>
+
+using namespace std;
+
+typedef vector<int> VI;
+typedef vector<vector<int> > VVI;
+typedef pair<int, int> PII;
+typedef vector<pair<int, int> > VPI;
+typedef vector<double> VD;
+typedef vector<vector<double> > VVD;
+
+const int EPIS = 1e-7;
+const int max = 2000000000;
+
+int n, m, k;
+
+int main(){
+    while (cin >> n >> m >> k && n * m * k != 0){
+        VI ring;
+        for (int i = 1; i <= n; i++)
+            ring.push_back(i);
+        int left = 0; 
+        int right = n - 1;
+        while (!ring.empty()){
+           for (int i = 0; i < m - 1; i++)
+                left = (left + 1) % n;
+           for (int j = 0; j < k - 1; j++)
+                right = (right + ( (-1 + n) % n)) % n;
+           if (left == right){
+                printf("%3d", ring[left]);
+                ring.erase(ring.begin() + left);
+                n--;
+                if (left >= n)
+                    left = 0;
+                if (right >= n)
+                    right = n - 1;
+                else
+                    right = (right + ( (-1 + n) % n)) % n;   
+            }
+           else{
+                printf("%3d", ring[left]);
+                printf("%3d", ring[right]);
+                n -= 2;
+                if (right < left){
+                    ring.erase(ring.begin() + left);
+                    ring.erase(ring.begin() + right);
+                    if (n != 0){
+                        right = (right + ( (-1 + n) % n)) % n;
+                        left = (left + ( (-1 + n) % n)) % n;
+                    }   
+                }
+                else{
+                    ring.erase(ring.begin() + right);
+                    ring.erase(ring.begin() + left);
+                    if(n != 0){
+                        right = (right + ( (-2 + n) % n)) % n;
+                    }                    
+                }
+           }
+           if (!ring.empty())
+               cout << ",";  
+        }
+        cout << endl;
+    }
+   return 0;
+}
