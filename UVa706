@@ -1,0 +1,139 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stdio.h>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <iomanip>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <string>
+#include <utility>
+
+using namespace std;
+
+typedef vector<int> VI;
+typedef vector<vector<int> > VVI;
+typedef pair<int, int> PII;
+typedef vector<pair<int, int> > VPI;
+typedef vector<double> VD;
+typedef vector<vector<double> > VVD;
+
+const int EPIS = 1e-7;
+const int max = 2000000000;
+
+void dash(bool b){
+    if (b)
+        cout << "-";
+    else
+        cout << " ";
+}
+
+void bar(bool b){
+    if (b)
+        cout << "|";
+    else
+        cout << " ";
+}
+
+VVI lc = {
+    {
+        1,0,1,1,1,1,1
+    },
+    {
+        0,0,0,0,1,0,1
+    },
+    {
+        1,1,1,0,1,1,0
+    },   
+    {
+        1,1,1,0,1,0,1
+    },
+    {
+        0,1,0,1,1,0,1
+    },
+    {
+        1,1,1,1,0,0,1
+    },
+    {
+        1,1,1,1,0,1,1
+    },
+    {
+        1,0,0,0,1,0,1
+    },
+    {
+        1,1,1,1,1,1,1
+    },
+    {
+        1,1,1,1,1,0,1
+    },
+};
+
+int main(){
+    int s;
+    string n;
+    while (cin >> s >> n && (s!=0)){
+        int m = n.size();
+        //the first line
+        for (int i = 0; i < m; i++){
+            dash(false);
+            for (int j = 0; j < s; j++)
+               dash(lc[n[i] - '0'][0]);
+            dash(false);
+            if (i < m - 1)    
+                cout << " ";
+        }
+        cout << endl;
+        //The next s lines
+        for (int l = 0; l < s; l++){
+            for (int i = 0; i < m; i++){
+                bar(lc[n[i] - '0'][3]);
+                for (int j = 0; j < s; j++)
+                    cout << " ";
+                bar(lc[n[i] - '0'][4]);
+                if (i < m - 1)
+                    cout << " ";
+            }
+            cout << endl; 
+        }
+        //The (s + 1)th line
+        for (int i = 0; i < m ;i++){
+            dash(false);
+            for (int j = 0; j < s; j++)
+                dash(lc[n[i] - '0'][1]);
+            dash(false);
+            if (i < m - 1)
+                cout << " ";
+        }
+        cout << endl;
+        //The next s lines
+        for (int l = 0; l < s; l++){
+            for (int i = 0; i < m; i++){
+                bar(lc[n[i] - '0'][5]);
+                for (int j = 0; j < s; j++)
+                    cout << " ";
+                bar(lc[n[i] - '0'][6]);
+                if (i < m - 1)
+                    cout << " ";
+            }
+            cout << endl;
+        }
+        //The last line
+        for (int i = 0; i < m; i++){
+            dash(false);
+            for (int j = 0; j < s; j++)
+                dash(lc[n[i] - '0'][2]);
+            dash(false);
+            if (i < m - 1)
+                cout << " ";
+        }
+        cout << endl;
+        cout << endl;
+    }
+    return 0;
+}
