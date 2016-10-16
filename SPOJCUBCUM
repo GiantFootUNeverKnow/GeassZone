@@ -1,0 +1,53 @@
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <string>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <utility>
+#include <climits>
+#include <iomanip>
+
+using namespace std;
+
+const int INF = 2000000000;
+const double EPS = 1e-7;
+
+typedef vector<int> VI;
+typedef vector<double> VD;
+typedef vector<vector<int>> VVI;
+typedef pair<int, int> PII;
+typedef vector<pair<int,int> > VPI;
+
+int dp[100001];
+
+void init(){
+    for (int i = 2; i < 100001; i++){
+            dp[i] = INF;
+            for (int j = 1; j * j * j <= i; j++){
+                        if (dp[i - j * j * j] + 1 < dp[i]) 
+                            dp[i] = dp[i - j * j * j] + 1;
+                   }
+        }
+}
+
+
+int main(){
+    dp[1] =  1;
+    dp[0] = 0;
+    init();
+    int n, index;
+    index = 1;
+    while(scanf("%d", &n)!=EOF){
+            printf("Case #%d: %d\n", index, dp[n]);
+            index++;
+        }
+    return 0;
+}
+
