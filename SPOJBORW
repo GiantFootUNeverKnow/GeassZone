@@ -1,0 +1,106 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stdio.h>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <list>
+#include <iomanip>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <cstring>
+#include <string>
+#include <utility>
+#include <functional>
+
+using namespace std;
+
+typedef long long int LLI;
+typedef vector<int> VI;
+typedef vector<vector<int> > VVI;
+typedef pair<int, int> PII;
+typedef vector<pair<int, int> > VPI;
+typedef vector<double> VD;
+typedef vector<vector<double> > VVD;
+typedef list<int> LI;
+
+const int EPIS = 1e-7;
+const int INF = 2000000000;
+const int N = 201;
+
+LLI dp[N][2][N];
+int a[N];
+int n;
+
+void init(){
+    for (int i = 0; i < N; i++)
+        for (int j = 0; j < N; j++)
+            dp[i][0][j] = dp[i][1][j] = 0; 
+}
+
+/* DP function: dp[i][b][j] means the max # of painted integers such that i is last painted integer with color b
+ * and j is the last position color 1 - b is used. 
+ * dp[0][b][j] means no color was used yet, dp[i][b][0] means at most one color has been used
+ * dp[i][b][j] = max ( max (dp[k][b][j]), max(dp[j][1-b][k]) ) + 1, 
+ * range of k should be valid according to the definition
+ *
+ * Essentially  a variant of longest increasing subsequence but black case and white case have to be separated
+ *
+ * */
+void calc_dp(int i, int b, int j){
+    if (dp[i][b][j] != 0)
+        return;
+    if (i <= j){
+        dp[i][b][j] = 0;
+        return;
+    }
+    LLI maxrec = 0;
+    // cout << i << " start " << j << endl;
+    for(int k = j + 1; k < i; k++){
+        if ( (b == 0 && (a[k - 1] > a[i-1]) ) || (b == 1 && (a[k-1] < a[i-1])) ){
+            calc_dp(k, b, j);
+            maxrec = max(maxrec, dp[k][b][j]);
+        }
+    }
+    for (int k = 0; k < j; k++){
+        if ( k == 0 || (b == 0 && (a[k-1] > a[i-1])) || (b == 1 && (a[k-1] < a[i-1])) ){
+            calc_dp(j, 1-b, k);
+            maxrec = max(maxrec, dp[j][1-b][k]);
+        }
+    }
+    // cout << i << " end " << j << endl;
+    maxrec++;
+    dp[i][b][j] = maxrec;
+}
+
+int main(){
+    while (cin >> n && n != -1){
+        init();
+        for ( int i = 0; i < n; i++ )
+            cin >> a[i];
+        for ( int i = 1; i <= n; i++ ){
+            //for white: descending
+            for ( int j = 0; j < n; j++)
+                calc_dp(i,0,j); 
+            //for black: ascending
+            for ( int j = 0; j < n; j++)
+                calc_dp(i,1,j);
+        }
+        LLI opt  = -1;
+        for (int i = 0; i <= n; i++){
+            for (int j = 0; j <= n; j++){
+            //    cerr << dp[i][0][j] << "," << dp[i][1][j] << " ";
+                if (max(dp[i][0][j], dp[i][1][j]) > opt)
+                    opt = max(dp[i][0][j], dp[i][1][j]);
+            }
+          //  cerr << endl;
+        } 
+        cout << n - opt << endl;
+    }    
+    return 0;
+}
