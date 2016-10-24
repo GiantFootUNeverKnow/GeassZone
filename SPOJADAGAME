@@ -1,0 +1,107 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stdio.h>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <list>
+#include <iomanip>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <cstring>
+#include <string>
+#include <utility>
+#include <functional>
+
+using namespace std;
+
+typedef long long int LLI;
+typedef vector<int> VI;
+typedef vector<vector<int> > VVI;
+typedef pair<int, int> PII;
+typedef vector<pair<int, int> > VPI;
+typedef vector<double> VD;
+typedef vector<vector<double> > VVD;
+typedef list<int> LI;
+
+const int EPIS = 1e-7;
+const int INF = 2000000000;
+
+/**
+ * dp[i][j][b] denotes the max number obtained from number i after j step, with b 
+ * being the player to take action next
+ *
+ * b = 0: Ada plays first
+ * b = 1: Vimit plays first 
+ */
+const int N = 10000;
+const int M = 201;
+
+int dp[N][M][2];
+
+// increase the p digit of x in the way the problem states
+int inc(int x, int p){
+    int a[4];
+    for (int i = 0; i < 4; i++){
+        a[i] = x % 10;
+        x /= 10;
+    }
+    a[p] += 1;
+    if (a[p] == 10)
+        a[p] = 0;
+    int y = 0;
+    for (int i = 3; i > 0; i--){
+        y += a[i];
+        y *= 10;
+    }
+    y += a[0];
+    return y;
+}
+
+int calc_dp(int i, int j, int b){
+    if (dp[i][j][b])
+        return dp[i][j][b];
+    if (j == 0){
+        dp[i][j][b] = i;
+        return i;
+    }
+    if (b == 0){
+        int opt = 0;
+        for (int k = 0; k < 4; k++){
+            int y = inc(i, k);
+            opt = max(opt, calc_dp(y, j - 1, 1 - b));
+        }
+        dp[i][j][b] = opt;
+        return opt;
+    }
+    else{
+        int opt = INF;
+        for (int k = 0; k < 4; k++){
+            int y = inc(i, k);
+            opt = min(opt, calc_dp(y, j - 1, 1 - b));
+        }
+        dp[i][j][b] = opt;
+        return opt;
+    }
+}
+
+int main(){
+    int t;
+    cin >> t;
+    memset(dp, 0, sizeof dp);
+    while(t--){
+        int n, m;
+        cin >> n >> m;
+        int opt = calc_dp(n, m, 0);
+        if (opt > n)
+            cout << "Ada" << endl;
+        else
+            cout << "Vinit" << endl;
+    }  
+    return 0;
+}
