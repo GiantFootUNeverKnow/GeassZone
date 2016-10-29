@@ -1,0 +1,75 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stdio.h>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <list>
+#include <iomanip>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <cstring>
+#include <string>
+#include <utility>
+#include <functional>
+
+using namespace std;
+
+typedef long long int LLI;
+typedef vector<int> VI;
+typedef vector<vector<int> > VVI;
+typedef pair<int, int> PII;
+typedef vector<pair<int, int> > VPI;
+typedef vector<double> VD;
+typedef vector<vector<double> > VVD;
+typedef list<int> LI;
+
+const int EPIS = 1e-7;
+const int INF = 2000000000;
+int n, m, s, t;
+
+int main(){
+    int tcase;
+    cin >> tcase;
+    while (tcase--){
+        scanf("%d%d%d%d", &n, &m ,&s, &t);
+        vector<VPI> e(n);
+        s--; t--;
+        int a, b, cost;
+        for (int i = 0; i < m; i++){
+            cin >> a >> b >> cost;
+            e[a-1].push_back(make_pair(cost, b-1));
+            e[b-1].push_back(make_pair(cost, a-1));
+        }   
+
+        priority_queue<PII, VPI, greater<PII>> Q;
+        VI dist(n, INF), dad(n, -1);
+        Q.push(make_pair(0, s));
+        dist[s] = 0;
+        while (!Q.empty()){
+            PII p = Q.top();
+            if (p.second == t)
+                break;
+            Q.pop();
+
+            int here = p.second;
+            for (VPI::iterator it=e[here].begin(); it!= e[here].end(); it++){
+                if (dist[here] + it->first < dist[it->second]){
+                    dist[it->second] = dist[here] + it->first;
+                    dad[it->second] = here;
+                    Q.push(make_pair(dist[it->second], it->second));
+                }
+            }
+        }
+        if (dist[t] == INF)
+            cout << "NONE" << endl;
+        else
+            cout << dist[t] << endl;
+    }
+    return 0;
+}
