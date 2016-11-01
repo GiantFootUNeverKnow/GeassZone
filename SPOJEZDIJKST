@@ -1,0 +1,73 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stdio.h>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <list>
+#include <iomanip>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <cstring>
+#include <string>
+#include <utility>
+#include <functional>
+
+using namespace std;
+
+typedef long long int LLI;
+typedef vector<int> VI;
+typedef vector<vector<int> > VVI;
+typedef pair<int, int> PII;
+typedef vector<pair<int, int> > VPI;
+typedef vector<double> VD;
+typedef vector<vector<double> > VVD;
+typedef list<int> LI;
+
+const int EPIS = 1e-7;
+const int INF = 2000000000;
+
+int main(){
+    int tcase;
+    cin >> tcase;
+    while (tcase--){
+        int V, K;
+        cin >> V >> K;
+        vector<VPI> edges(V);
+        for (int i = 0; i < K; i++){
+            int a, b, c;
+            scanf("%d%d%d", &a, &b, &c);
+            a--;b--;
+            edges[a].push_back(make_pair(c, b));
+        }
+        priority_queue<PII, VPI, greater<PII> > Q;
+        VI dist(V, INF);
+        int s, t;
+        cin >> s >> t;
+        s--;t--;
+        dist[s] = 0;
+        Q.push(make_pair(0, s));
+        while (!Q.empty()){
+            PII p = Q.top();
+            if (p.second == t)
+                break;
+            Q.pop();
+
+            int here = p.second;
+            for (VPI::iterator it=edges[here].begin(); it!=edges[here].end(); it++){
+                dist[it->second] = dist[here] + it->first;
+                Q.push(make_pair(dist[it->second], it->second));
+            }
+        }
+        if (dist[t] < INF)
+            cout << dist[t] << endl;
+        else
+            cout << "NO" << endl;
+    }   
+    return 0;
+}
