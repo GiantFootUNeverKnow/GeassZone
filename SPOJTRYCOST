@@ -1,0 +1,78 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stdio.h>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <list>
+#include <iomanip>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <cstring>
+#include <string>
+#include <utility>
+#include <functional>
+
+using namespace std;
+
+typedef long long int LLI;
+typedef vector<int> VI;
+typedef vector<vector<int> > VVI;
+typedef pair<int, int> PII;
+typedef vector<pair<int, int> > VPI;
+typedef vector<double> VD;
+typedef vector<vector<double> > VVD;
+typedef list<int> LI;
+
+const int EPIS = 1e-7;
+const int INF = 2000000000;
+const int N = 501;
+
+int main(){
+    vector<VPI> edges(N);
+    int m; 
+    cin >> m;
+    for (int i = 0; i < m; i++){
+        int a,b,c;
+        scanf("%d %d %d", &a, &b, &c);
+   //     cerr << "a " <<a << " b " << b << " c " << c;
+        edges[a].push_back(make_pair(c, b));
+        edges[b].push_back(make_pair(c, a));
+    }
+    //cerr << "Read in" << endl;
+    priority_queue<PII, VPI, greater<PII> > Q;
+    VI dist(N, INF);
+    int s;
+    cin >> s;
+    Q.push(make_pair(0,s));
+    dist[s] = 0;
+    //cerr << "Set up" << endl;
+    while (!Q.empty()){
+        PII p = Q.top();
+        Q.pop(); 
+        int here = p.second;
+        for (auto it = edges[here].begin(); it!=edges[here].end(); it++){
+            if (dist[here] + it->first < dist[it->second]){
+                dist[it->second] = dist[here] + it->first;
+                Q.push(make_pair(dist[it->second], it->second));
+            }
+        }
+    }
+    //cerr << "Loop out" << endl;
+    int q, t;
+    cin >> q;
+    while (q--){
+        scanf("%d", &t);
+    //    cerr << t << " " << dist[t] << endl;
+        if (dist[t] < INF)
+            cout << dist[t] << endl;
+        else
+            cout << "NO PATH" << endl;
+    } 
+    return 0;
+}
