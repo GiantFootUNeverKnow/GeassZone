@@ -1,0 +1,76 @@
+#include <vector>
+#include <iostream>
+#include <stdio.h>
+#include <iomanip>
+#include <queue>
+
+using namespace std;
+
+bool matrix[21][21];
+
+int bfs(int str, int end){
+	queue<int> q;
+	queue<int> pathlength;
+	bool visited[23];
+	for (int i = 0; i< 22; i++){
+		visited[i] = false;
+	}
+	q.push(str);
+	pathlength.push(0);
+	visited[str] = 1;
+	int ans = 9999;
+	while (!q.empty()){
+		int now = q.front();
+		int dist = pathlength.front();
+		if (now == end){
+			return dist;
+			}
+		else{
+			for (int i = 1; i <= 20; i ++){
+				if (matrix[now][i] && !visited[i])
+				{
+					q.push(i);
+					pathlength.push(dist+1);
+					visited[i] = true;
+				}
+			}
+			q.pop();
+			pathlength.pop();
+		}
+	}
+	return ans;
+}
+
+int main(){
+	//freopen("file.txt","r",stdin);
+	int countCase = 1;
+	int num;
+	while (cin >> num){		
+		for (int i = 0; i < 22;i++)
+			for (int j = 0; j < 22; j++)
+				matrix[i][j] = 0;
+		for (int i =1; i < 20; i++){			
+			int cat;
+			for (int j = 0; j < num; j++){
+				cin >> cat;
+				matrix[i][cat] = 1;
+				matrix[cat][i] = 1;
+				//cin >> num;
+			}
+			cin >> num;
+		}//reading matrix
+		//cin >> num;
+		int str,end;
+		cout << "Test Set #" << countCase << endl;
+		for (int p = 0; p < num; p++){
+			cin >> str >> end;
+			int ans =  bfs(str,end);
+			cout << setw(2) << right << str <<" to " << setw(2) << right << end << ": " << ans << endl;
+		}
+		cout << endl;
+		//reading query and respond
+		countCase++;	
+		//move on next case
+	}	
+	return 0;
+}
