@@ -1,0 +1,100 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stdio.h>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <list>
+#include <iomanip>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <cstring>
+#include <string>
+#include <utility>
+#include <functional>
+
+using namespace std;
+
+typedef long long int LLI;
+typedef vector<int> VI;
+typedef vector<vector<int> > VVI;
+typedef pair<int, int> PII;
+typedef vector<pair<int, int> > VPI;
+typedef vector<double> VD;
+typedef vector<vector<double> > VVD;
+typedef list<int> LI;
+
+const int EPIS = 1e-7;
+const int INF = 2000000000;
+
+const int N = 100000;
+int uf[N];
+int sizeuf[N];
+int r[N];
+unordered_map<string, int> m;
+int counter = 0;
+
+void init(){
+    for (int i = 0; i < N; i++){
+        uf[i] = i;
+        sizeuf[i] = 1;        
+        r[i] = 1; 
+    }
+    m.clear();
+    counter = 0;
+}
+
+int find(int x){
+    if (uf[x] != uf[uf[x]]) uf[x] = find(uf[x]);
+    return uf[x];
+}
+
+bool uni(int x, int y){
+    int xx = find(x), yy = find(y);
+    if (xx == yy)
+        return false;
+
+    if (r[xx] > r[yy]){
+        int t = xx;
+        xx = yy;
+        yy = t;
+    }
+
+    if (r[xx] == r[yy])
+        r[yy]++;
+
+    uf[xx] = yy;
+    sizeuf[yy] += sizeuf[xx];
+    return true;
+}
+
+int main(){
+    int tcase;
+    cin >> tcase;
+    while(tcase--){
+        int n;
+        cin >> n;
+        init();
+        string a,b;
+        for (int i = 0; i < n; i++){
+            //scanf("%s %s", a, b);
+            cin >> a >> b;
+            if (!m.count(a)){
+                m[a] = counter;
+                counter++;
+            }
+            if (!m.count(b)){
+                m[b] = counter;
+                counter++;
+            }
+            uni(m[a], m[b]);
+            printf("%d\n", sizeuf[find(m[a])]);
+        }
+    }  
+    return 0;
+}
