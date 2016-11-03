@@ -80,3 +80,7 @@
 #while (cin >> x && x != 0){}
 #
 #SPOJFRNDCIRC uni, rank, map are all keywords of C++, don't use them
+#
+#UVa558 DONT use memset to assign value that is too big. It doesn't work. In memset(s, c, n), although the value passed to c can be 
+#an integer, it would be casted into an unsigned char before assigning to the string. memset(s, ' ', 100) shoudl work but 
+#memset(s, 2000000000, 100) would not 

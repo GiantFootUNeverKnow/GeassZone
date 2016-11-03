@@ -1,0 +1,98 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <stdio.h>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <list>
+#include <iomanip>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <cstring>
+#include <string>
+#include <utility>
+#include <functional>
+
+using namespace std;
+
+typedef long long int LLI;
+typedef vector<int> VI;
+typedef vector<vector<int> > VVI;
+typedef pair<int, int> PII;
+typedef vector<pair<int, int> > VPI;
+typedef vector<double> VD;
+typedef vector<vector<double> > VVD;
+typedef list<int> LI;
+
+const int EPIS = 1e-7;
+const int INF = 2000000000;
+
+const int N = 1001;
+const int M = 2001;
+
+int graph[N][N];
+int dist[N];
+VPI e;
+int n,m;
+
+void init(){
+    for (int i = 0; i < n; i++)
+        for ( int j = 0; j < n; j++ )
+            graph[i][j] = INF;
+    for (int i = 0; i < n; i++)
+        dist[i] = INF;
+    e.clear();
+}
+
+
+void bellman_ford( int s ){
+    dist[s] = 0;
+    
+    for (int k = 0; k < n - 1; k++){
+        for (int j = 0; j < e.size(); j++){
+            int u = e[j].first, v = e[j].second;
+            if (dist[u] < INF && dist[v] > dist[u] + graph[u][v]){
+                dist[v] = dist[u] + graph[u][v];
+            }
+        }
+    }
+}
+
+int main(){
+    int c, index;
+    cin >> c;
+    index = 0;
+    while(c--){
+        index++;
+        cin >> n >> m;
+        init();
+
+        int a,b,cost;
+        for (int i = 0; i < m; i++){
+            cin >> a >> b >> cost;
+            e.push_back(make_pair(a,b));
+            graph[a][b] = cost;
+        }
+
+        bellman_ford(0);
+
+        bool is_cycle = false;
+        for ( int j = 0; j < e.size(); j++ ){
+            int u = e[j].first, v = e[j].second;
+            if (dist[u] < INF && dist[v] > dist[u] + graph[u][v]){
+                is_cycle = true;
+                break;
+            }
+        }
+        if (is_cycle)
+            cout << "possible" << endl;
+        else
+            cout << "not possible" << endl;
+    }
+    return 0;
+}
