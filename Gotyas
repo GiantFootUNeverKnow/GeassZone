@@ -78,3 +78,5 @@
 #Also, x % 0 is undefined and running such operation would cause the program to exit with no exception
 #Handy way to accept input and validate that it is non-zero: 
 #while (cin >> x && x != 0){}
+#
+#SPOJFRNDCIRC uni, rank, map are all keywords of C++, don't use them
