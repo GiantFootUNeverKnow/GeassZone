@@ -83,4 +83,6 @@
 #
 #UVa558 DONT use memset to assign value that is too big. It doesn't work. In memset(s, c, n), although the value passed to c can be 
 #an integer, it would be casted into an unsigned char before assigning to the string. memset(s, ' ', 100) shoudl work but 
-#memset(s, 2000000000, 100) would not 
+#memset(s, 2000000000, 100) would not
+#
+#UVa10341 How to print float with precision 4? import <iomanip> cout << fixed; cout << setprecision(4) << f << endl; 
