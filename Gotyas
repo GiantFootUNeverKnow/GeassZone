@@ -86,3 +86,6 @@
 #memset(s, 2000000000, 100) would not
 #
 #UVa10341 How to print float with precision 4? import <iomanip> cout << fixed; cout << setprecision(4) << f << endl; 
+#
+#C++ stl has some functions incompatible with const modifiers. When accessing an element in a const map, use at() instead of [] operatot. 
+#When accessing iterators of a const data structure, use cbegin() and cend() instead of begin() and end()
